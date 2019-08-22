@@ -1,0 +1,196 @@
+" Softtabs, 2 spaces
+set encoding=utf8
+set tabstop=4
+set shiftwidth=4
+set shiftround
+set expandtab
+
+" Display extra whitespace
+"set list listchars=tab:»·,trail:␣
+
+" Make it obvious where 80 characters is
+set textwidth=80
+set colorcolumn=+1
+
+" Numbers
+set autoindent
+set smartindent
+set number
+set numberwidth=5
+
+set matchpairs+=<:>
+set hlsearch
+
+"au WinLeave * set nocursorline nocursorcolumn
+"au WinEnter * set cursorline cursorcolumn
+" Highlight current line
+set cursorline
+" set cursorcolumn
+" open a NERDTree automatically when vim starts up
+"autocmd vimenter * NERDTree
+
+" Tagbar
+let g:tagbar_width=35
+let g:tagbar_autofocus=1
+nmap <F2> :NERDTreeToggle<CR>
+" set Command-T
+nmap <F3> :CommandT<CR>
+nmap <F4> :TagbarToggle<CR>
+nmap <F7> :lprevious<CR>
+nmap <F8> :lnext<CR>
+
+set pastetoggle=<F9>
+
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+
+" The following are examples of different formats supported.
+" Keep Plugin commands between vundle#begin/end.
+" plugin on GitHub repo
+Plugin 'tpope/vim-fugitive'
+" plugin from http://vim-scripts.org/vim/scripts.html
+Plugin 'L9'
+" Git plugin not hosted on GitHub
+" Plugin 'wincent/command-t'
+" git repos on your local machine (i.e. when working on your own plugin)
+"Plugin 'file:///home/gmarik/path/to/plugin'
+" The sparkup vim script is in a subdirectory of this repo called vim.
+" Pass the path to set the runtimepath properly.
+Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+" Install autocompletion and static check for Python
+Plugin 'davidhalter/jedi-vim'
+" Install Tagbar (need apt-get install  exuberant-ctags)
+Plugin 'vim-scripts/Tagbar'
+" Install NerdTree
+Plugin 'scrooloose/nerdtree'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+"Plugin 'ryanoasis/vim-devicons'
+Plugin 'wincent/command-t'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'tpope/vim-surround'
+Plugin 'scrooloose/syntastic'
+" puppet highlight
+Plugin 'rodjek/vim-puppet'
+" Ruby highlight
+Plugin 'vim-ruby/vim-ruby'
+
+Plugin 'tomasr/molokai'
+Plugin 'godlygeek/tabular'
+Plugin 'hdima/python-syntax'
+"#Plugin 'fatih/vim-go'
+Plugin 'Shougo/neocomplete.vim'
+Plugin 'Raimondi/delimitMate'
+Plugin 'mileszs/ack.vim'
+Plugin 'gcmt/wildfire.vim'
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+" disable following as copy-paste error in Putty
+" filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+filetype plugin on
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
+" Set colorscheme
+set t_Co=256
+set background=dark
+colorscheme molokai
+" jump to last edit position
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+" Get ride of Ex mode
+nnoremap Q <nop>
+" disable auto code completion which is in bad performance
+let g:jedi#completions_enabled = 1
+let g:jedi#completions_command = "<C-N>"
+let g:jedi#show_call_signatures = "0"
+let g:jedi#auto_close_doc = 1  " close preview window after completion
+set laststatus=2
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 0
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline_theme='dark'
+" Enabled buffer display and switch
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline#extensions#tabline#buffer_nr_show = 1
+nmap <leader>1 <Plug>AirlineSelectTab1
+nmap <leader>2 <Plug>AirlineSelectTab2
+nmap <leader>3 <Plug>AirlineSelectTab3
+nmap <leader>4 <Plug>AirlineSelectTab4
+nmap <leader>5 <Plug>AirlineSelectTab5
+nmap <leader>6 <Plug>AirlineSelectTab6
+nmap <leader>7 <Plug>AirlineSelectTab7
+nmap <leader>8 <Plug>AirlineSelectTab8
+nmap <leader>9 <Plug>AirlineSelectTab9
+nmap <leader>- <Plug>AirlineSelectPrevTab
+nmap <leader>+ <Plug>AirlineSelectNextTab
+
+" close NERDTree automatically
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" let g:NERDTreeDirArrowExpandable = ''
+" let g:NERDTreeDirArrowCollapsible = 'x'
+
+"set mouse=a
+" Search ctags file to parent folder recursively
+set tags=tags;/
+
+" for python syntax check
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+au FileType python let g:syntastic_always_populate_loc_list = 1
+au FileType python let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
+
+let python_highlight_all = 1
+" Set vim bracket highlighting colors
+hi MatchParen cterm=underline ctermfg=magenta ctermbg=none
+" Set git commit message format
+autocmd Filetype gitcommit setlocal spell textwidth=72
+
+" Tweak the performance of tagbar( only search tagbar for following file type)
+autocmd FileType go,python,perl,java,c,cpp,bash,java,ruby let g:airline#extensions#tabline#enabled = 1
+
+
+let g:neocomplete#enable_at_startup = 1
+" let g:go_list_type = "quickfix"
+au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <leader>t <Plug>(go-test)
+au FileType go nmap <leader>c <Plug>(go-coverage)
+au FileType go nmap <F10> :GoRun %:p<CR>
+au FileType yaml set tabstop=2
+au FileType yaml set shiftwidth=2
+
+" Ruby rules
+
+au FileType ruby set tabstop=2 shiftwidth=2 softtabstop=2
+
+" Ruby rules end
+" for ack.vim
+let g:ack_lhandler = "botright lopen 30"
+" wildfire - quick pair
+" enter 3<SPACE> to select 3 layer of pairs
+map <SPACE> <Plug>(wildfire-fuel)
+vmap <S-SPACE> <Plug>(wildfire-water)
+let g:wildfire_objects=["i'", 'i"', "i)", "i]", "i}", "i>", "ip"]
+
