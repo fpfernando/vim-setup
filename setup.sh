@@ -12,6 +12,9 @@ echo "If root priviledge is asked, please give."
 if [ -z $(which yum) ];then
     sudo apt-get -y install git python vim exuberant-ctags
 else
+    sudo yum install -y https://centos7.iuscommunity.org/ius-release.rpm
+    sudo yum update
+    sudo yum -y install wget
     sudo yum -y install git python36u python36u-libs python36u-devel python36u-pip vim ctags
 fi
 
@@ -31,6 +34,8 @@ mkdir -p ~/.vim/bundle
 rm -rf ~/.vim/bundle/Vundle.vim
 git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
+# Molokai Colorscheme
+git clone https://github.com/tomasr/molokai.git ~/.vim/colors/
 # Download some special fonts for airline
 mkdir -p $USR_FONTS
 wget -P $USR_FONTS \
